@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+/*@import "~bootstrap/dist/css/bootstrap.min.css";*/
+
+.logo{
+  background-image: url("./assets/img/logo.svg");
+}
+
+.font-H1-inicio-pg{
+  color: #2E8B57;
+}
+
+.cabecalho_div{
+  background-color: #2E8B57;
+  height: auto;
+}
+
+
+
+
+/*::-webkit-input-placeholder {
+  color: red !important;
+}
+
+:-moz-placeholder {
+  color: red !important;
+}
+
+::-moz-placeholder {
+  color: red !important;
+}
+
+:-ms-input-placeholder {
+  color: red !important;
+}*/
+

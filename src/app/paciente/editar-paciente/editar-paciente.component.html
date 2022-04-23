@@ -1,0 +1,170 @@
+
+<body>
+
+
+  <div class="container d-flex justify-content-center">
+    <div
+      class="card border-success mb-3 w-75 "
+      style="max-width: 100rem; min-width: 20rem"
+    >
+
+      <div class="card-header bg-success border-success" data-bs-toggle="modal" data-bs-target="#AddTelefone">
+        <div class="row col">
+        <div class="text-light  d-flex justify-content-center ">
+       <h5> Cadastro do Paciente </h5>
+      </div>
+        <div class="d-flex justify-content-end col " >
+          <button
+          class="btn btn-outline-light rounded-pill ">
+          Add Telefone <i class="fa fa-phone ms-1"></i>
+        </button>
+        </div>
+      </div>
+      </div>
+      <div class="card-body text-success bg-success  bg-opacity-10">
+        <div class="card-text">
+          <form class="form mt-4" [formGroup]="pacienteForm" (submit)="editarPaciente()">
+            <div class="form-group">
+              <label class="ms-2" >Nome</label>
+              <input type="text" class="form-control" placeholder="Nome do paciente" formControlName="nome" />
+              <app-mensagem *ngIf="pacienteForm.get('nome')?.errors?.['required'] && pacienteForm.get('nome')?.touched" mensagem="Campo Nome é obrigatorio"></app-mensagem>
+           <app-mensagem *ngIf="pacienteForm.get('nome')?.errors?.['maxlength']" mensagem="Tamanho máximo de 250 caracteres"></app-mensagem>
+            </div>
+            <div class="row mt-3" >
+              <div class="form-group col">
+                <label class="ms-2">Data Nascimento</label>
+                <input  type="date" class="form-control" placeholder="Data Nascimento"    formControlName="dataNascimento" />
+              </div>
+              <div class="form-group col">
+                <label  class="ms-2">CPF</label>
+                <input type="text" class="form-control" placeholder="CPF" mask="000.000.000-00" formControlName="cpf" />
+              </div>
+              <div class="form-group col ">
+                <label class="ms-2">RG</label>
+                <input type="text" class="form-control" placeholder="RG"  formControlName="rg"/>
+                <app-mensagem *ngIf="pacienteForm.get('rg')?.errors?.['maxlength']" mensagem="Tamanho máximo de 25 caracteres"></app-mensagem>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Nome mãe</label>
+              <input type="text" class="form-control" placeholder="Nome da mãe" formControlName="nomeMae"/>
+              <app-mensagem *ngIf="pacienteForm.get('nomeMae')?.errors?.['maxlength']" mensagem="Tamanho máximo de 250 caracteres"></app-mensagem>
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Nome do pai</label>
+              <input type="text" class="form-control" placeholder="Nome do pai"  formControlName="nomePai"/>
+              <app-mensagem *ngIf="pacienteForm.get('nomePai')?.errors?.['maxlength']" mensagem="Tamanho máximo de 250 caracteres"></app-mensagem>
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Email</label>
+              <input type="email" class="form-control" placeholder="Email" formControlName="email"/>
+              <app-mensagem *ngIf="pacienteForm.get('email')?.errors?.['maxlength']" mensagem="Tamanho máximo de 100 caracteres"></app-mensagem>
+              <app-mensagem *ngIf="pacienteForm.get('email')?.errors?.['email']" mensagem="Email incorreto"></app-mensagem>
+
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Endereço</label>
+              <input type="text" class="form-control" placeholder="Endereço" formControlName="endereco" />
+              <app-mensagem *ngIf="pacienteForm.get('endereco')?.errors?.['maxlength']" mensagem="Tamanho máximo de 250 caracteres"></app-mensagem>
+            </div>
+            <div class="row mt-3">
+              <div class="form-group col">
+                <label class="ms-2">CEP</label>
+                <input type="text" class="form-control" placeholder="CEP" mask="00000-000" formControlName="cep"/>
+              </div>
+              <div class="form-group col">
+                <label class="ms-2">Bairro</label>
+                <input type="text" class="form-control" placeholder="Bairro" formControlName="bairro"/>
+                <app-mensagem *ngIf="pacienteForm.get('bairro')?.errors?.['maxlength']" mensagem="Tamanho máximo de 250 caracteres"></app-mensagem>
+              </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+            <button [disabled]= "pacienteForm.invalid" class="btn  btn-success btn-sm    col-2">Atualizar</button>
+            <a class="btn  btn-outline-secondary btn-sm m  ms-3 col-2" [routerLink]="['../../pacientes']">Cancelar</a>
+          </div>
+          </form>
+        </div>
+      </div>
+
+
+
+      <div class="card-footer  border-success bg-success  bg-opacity-10">
+        <h5 class="text-success mt-2">Telefones</h5>
+
+        <div class="container" *ngIf=" telefonesPaciente$ | async as telefones" >
+      <table class="table table-striped table-hover shadow p-3 mb-5 bg-body rounded">
+        <thead>
+          <tr>
+            <th scope="col" class="col" >ID</th>
+            <th scope="col" class="col"> Tipo</th>
+            <th scope="col" class="col">Telefone</th>
+            <th scope="col" class="col-3">Editar | Deletar </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor= "let lista of telefones">
+            <th>{{lista.id}}</th>
+            <td>{{lista.tipo}}</td>
+            <td>{{lista.telefones}}</td>
+            <td>
+
+                <i class="fa fa-pencil btn "></i>
+                <div class="text-dark ms-3 vr"></div>
+
+                <i class="fa fa-trash btn"></i>
+
+
+              </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="AddTelefone" tabindex="-1" aria-labelledby="addTelefoneLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header border-success bg-success">
+          <h5 class="modal-title text-light" id="addTelefoneLabel"> Adicionar Telefone</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form  [formGroup]="teleForm" (submit)="addTelefone()" >
+          <div class="container ">
+            <div class="row">
+        <div class=" col-6 mt-5 mb-3">
+           <label>Tipo</label>
+          <select class="form-select" aria-label="Default select example" placeholder="Tipo" formControlName="tipo" >
+            <option selected></option>
+            <option value="Residencial">Residencial</option>
+            <option value="Celular">Celular</option>
+            <option value="Comercial">Comercial</option>
+            <option value="Outros">Outros</option>
+          </select>
+
+          <app-mensagem *ngIf="teleForm.get('tipo')?.errors?.['required'] && teleForm.get('tipo')?.touched" mensagem="Campo Tipo é obrigatorio"></app-mensagem>
+
+        </div >
+        <div class="col-6 mt-5 mb-3">
+          <label>Telefone</label>
+          <input type="tel" class="form-control" placeholder="+55(11)9999-99999"  formControlName="telefones"/>
+
+          <app-mensagem *ngIf="teleForm.get('telefones')?.errors?.['required'] && teleForm.get('telefones')?.touched" mensagem="Campo Telefone é obrigatorio"></app-mensagem>
+
+        </div>
+      </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn  btn-outline-secondary btn-sm m  ms-3 col-2" data-bs-dismiss="modal">Close</button>
+          <button [disabled]="teleForm.invalid" type="button" class="btn  btn-success btn-sm col-2" type="submit" >Adicionar</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</body>
