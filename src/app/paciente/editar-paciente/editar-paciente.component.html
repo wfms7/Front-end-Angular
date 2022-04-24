@@ -15,7 +15,7 @@
       </div>
         <div class="d-flex justify-content-end col " >
           <button
-          class="btn btn-outline-light rounded-pill ">
+          class="btn btn-outline-light rounded-pill" (click)="telefoneClear()">
           Add Telefone <i class="fa fa-phone ms-1"></i>
         </button>
         </div>
@@ -108,7 +108,7 @@
             <td>{{lista.telefones}}</td>
             <td>
 
-                <i class="fa fa-pencil btn "></i>
+                <i class="fa fa-pencil btn " (click)="getTelefoneid(lista?.id)"  data-bs-toggle="modal" data-bs-target="#AddTelefone"></i>
                 <div class="text-dark ms-3 vr"></div>
 
                 <i class="fa fa-trash btn"></i>
@@ -127,7 +127,7 @@
 
   </div>
 
-  <div class="modal fade" id="AddTelefone" tabindex="-1" aria-labelledby="addTelefoneLabel" aria-hidden="true">
+  <div class="modal fade" id="AddTelefone" tabindex="-1"  aria-labelledby="addTelefoneLabel" aria-hidden="true">
     <div class="modal-dialog ">
       <div class="modal-content">
         <div class="modal-header border-success bg-success">
@@ -159,12 +159,29 @@
         </div>
       </div>
       </div>
-        <div class="modal-footer">
-          <button type="button" class="btn  btn-outline-secondary btn-sm m  ms-3 col-2" data-bs-dismiss="modal">Close</button>
-          <button [disabled]="teleForm.invalid" type="button" class="btn  btn-success btn-sm col-2" type="submit" >Adicionar</button>
+        <div class="modal-footer" >
+          <button type="button" class="btn  btn-outline-secondary btn-sm m  ms-3 col-2" data-bs-dismiss="modal" (click)=" telefoneClear()">Close</button>
+          <div *ngIf="telefone.id == 0; else atualizar_">
+            <button [disabled]="teleForm.invalid" type="button" class="btn  btn-success btn-sm " type="submit" >Adicionar</button>
+
+
+          </div>
+
+
+        <div >
+
+          <ng-template #atualizar_ >
+
+
+          <button [disabled]="teleForm.invalid" type="button" class="btn  btn-success btn-sm col-2" type="submit" >Atualizar </button>
+
+          </ng-template>
         </div>
+      </div>
       </form>
       </div>
     </div>
   </div>
+
+
 </body>

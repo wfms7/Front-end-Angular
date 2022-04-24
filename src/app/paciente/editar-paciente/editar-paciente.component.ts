@@ -1,6 +1,6 @@
 import { TelefonesService } from './../../services/telefones/telefones.service';
 import { Telefone } from './../../models/telefones/telefones';
-import { Observable } from 'rxjs';
+import { Observable, empty } from 'rxjs';
 import {
   FormBuilder,
   FormControl,
@@ -15,6 +15,8 @@ import * as moment from 'moment';
 import { Telefones } from 'src/app/models/telefones/telefones';
 import { AlertModelService } from 'src/app/componentes/alert-model/alert-model.service';
 
+declare var window:any;
+
 @Component({
   selector: 'app-editar-paciente',
   templateUrl: './editar-paciente.component.html',
@@ -22,11 +24,14 @@ import { AlertModelService } from 'src/app/componentes/alert-model/alert-model.s
 })
 export class EditarPacienteComponent implements OnInit {
   paciente!: NovoPaciente;
-  telefone!: Telefone;
+  telefone:Telefone  = { id:0, tipo:"",telefones:"", pacienteId:0};
   pacienteId!: number;
   pacienteForm!: FormGroup;
   telefonesPaciente$!: Observable<Telefones>;
   teleForm!: FormGroup;
+  btnAddAtualizar: string = "Adicionar"
+  formModal:any;
+
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -34,9 +39,16 @@ export class EditarPacienteComponent implements OnInit {
     private formBuilder: FormBuilder,
     private telefoneService: TelefonesService,
     private alerteModelService: AlertModelService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit(): void {
+
+
+
+
+
     this.pacienteForm = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.maxLength(250)]],
       dataNascimento: ['0001-01-01'],
@@ -74,6 +86,12 @@ export class EditarPacienteComponent implements OnInit {
 
         this.getTelefones(this.pacienteId);
       });
+
+
+      this.formModal = new window.bootstrap.Modal(
+        document.getElementById("AddTelefone")
+
+      );
   }
 
   getFormatterDate() {
@@ -99,7 +117,11 @@ export class EditarPacienteComponent implements OnInit {
   }
 
   addTelefone() {
-    if (this.teleForm.valid) {
+
+
+
+
+    if (this.teleForm.valid && this.telefone.id==0) {
       const telefone_ = this.teleForm.getRawValue() as Telefone;
 
       telefone_.pacienteId = this.activateRoute.snapshot.params['pacienteId'];
@@ -113,7 +135,62 @@ export class EditarPacienteComponent implements OnInit {
         });
       this.teleForm.reset();
     }
+    else if(this.teleForm.valid && this.telefone.id>0){
+
+      const telefone_ = this.teleForm.getRawValue() as Telefone;
+      const telefones_: Telefones = [telefone_];
+      telefone_.pacienteId = this.activateRoute.snapshot.params['pacienteId'];
+      telefone_.id= this.telefone.id;
+      this.telefoneService.updateTelefone(telefone_)
+      .subscribe((dados)=>{
+        dados;
+        this.hangdleMensagemSucesso("Atualizado com Sucesso");
+        this.getTelefones(this.pacienteId);
+      });
+      this.teleForm.reset();
+      this.closeModel()
+
+
+
+    }
   }
+
+  getTelefoneid(id?:number){
+
+
+
+     if(id!= undefined){
+     this.telefoneService.getTelefoneId(id).subscribe(tel =>{console.log(tel);this.telefone =tel ;
+        this.teleForm.patchValue({
+          tipo:tel.tipo,
+          telefones:tel.telefones
+        })
+
+      });
+
+      }
+
+    }
+
+    telefoneClear(){
+    this.telefone.id = 0;
+    this.telefone.pacienteId = 0;
+    this.telefone.telefones="";
+    this.telefone.tipo="";
+    this.teleForm.reset();
+    console.log(this.telefone)
+  }
+
+
+  openModel(){
+    this.formModal.show();
+  }
+
+  closeModel(){
+    this.formModal.hide()
+  }
+
+
 
   hangdleMensagemSucesso(mensagem:string) {
     this.alerteModelService.showAlertSuccess(mensagem);

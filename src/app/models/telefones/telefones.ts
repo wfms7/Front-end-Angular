@@ -1,10 +1,10 @@
 
 export interface Telefone {
 
-  id?: number;
-  tipo?: string;
-  telefones?:string;
-  pacienteId?:number;
+  id: number ;
+  tipo: string ;
+  telefones:string;
+  pacienteId:number;
 
 
 }
