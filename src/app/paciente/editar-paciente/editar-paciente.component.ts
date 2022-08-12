@@ -14,6 +14,7 @@ import { NovoPaciente } from 'src/app/models/paciente/novo-paciente';
 import * as moment from 'moment';
 import { Telefones } from 'src/app/models/telefones/telefones';
 import { AlertModelService } from 'src/app/componentes/alert-model/alert-model.service';
+import { ThisReceiver } from '@angular/compiler';
 
 declare var window:any;
 
@@ -179,6 +180,13 @@ export class EditarPacienteComponent implements OnInit {
     this.telefone.tipo="";
     this.teleForm.reset();
     console.log(this.telefone)
+  }
+
+  telefoneDeletar(id:number)
+  {
+
+    this.telefoneService.deleterTelefone(id).subscribe(dados => {console.log(dados) ;this.getTelefones(this.pacienteId)});
+
   }
 
 

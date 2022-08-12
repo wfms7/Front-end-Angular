@@ -31,4 +31,10 @@ export class TelefonesService {
 
    }
 
+   deleterTelefone(id:number){
+
+    return this.http.delete(`${API}/telefone/${id}`);
+
+   }
+
 }

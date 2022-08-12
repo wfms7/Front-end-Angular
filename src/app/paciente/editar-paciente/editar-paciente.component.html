@@ -111,7 +111,7 @@
                 <i class="fa fa-pencil btn " (click)="getTelefoneid(lista?.id)"  data-bs-toggle="modal" data-bs-target="#AddTelefone"></i>
                 <div class="text-dark ms-3 vr"></div>
 
-                <i class="fa fa-trash btn"></i>
+                <i class="fa fa-trash btn"  data-bs-toggle="modal" data-bs-target="#deletarTelefone" (click)="getTelefoneid(lista?.id)" ></i>
 
 
               </td>
@@ -179,6 +179,61 @@
         </div>
       </div>
       </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    class="modal fade"
+    id="deletarTelefone"
+    tabindex="-1"
+    aria-labelledby="deletarLabelTelefone"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-danger bg-danger">
+          <h5 class="modal-title text-light" id="deletarLabelTelefone">
+            Deletar Paciente
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="row col-12">
+                <label class="fw-bold col-5 d-flex justify-content-end"
+                  >Deletar o Telefone</label
+                >
+
+                <label class="col-3"> {{ telefone?.telefones }}</label>
+                <label class="col-3"> {{ telefone?.tipo }}</label>
+              </div>
+
+              <div class="container">
+                <div class="row">
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              (click)="telefoneDeletar(telefone.id)"
+            >
+              Deletar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

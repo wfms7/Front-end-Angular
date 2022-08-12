@@ -2,19 +2,30 @@
   <div class="container">
     <div class="row">
       <div class="d-flex justify-content-left col-3">
-        <h4>Paciente</h4>
+        <h4>Usuario</h4>
       </div>
-      <form [formGroup]="form" class="col">
+
+      <form [formGroup]="form"  class="col">
+
+
         <div class="col d-flex justify-content-center">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input"  formControlName="tipoPesquisa"type="radio"  id="inlineRadio1" value="user">
+            <label class="form-check-label" for="inlineRadio1">User</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="tipoPesquisa" type="radio"  id="inlineRadio2" value="nomePesquisa">
+            <label class="form-check-label" for="inlineRadio2">Nome</label>
+          </div>
           <input
             type="text"
             placeholder="Busca por nome"
             class="form-control rounded-pill ms-1"
-            formControlName="nome"  />
+            formControlName="nome"     />
 
           <button
             class="btn btn-outline-success rounded-pill"
-            (click)="BuscarPorNome(0)"
+            (click)="getUserPortipo(0)"
           >
             <i class="fa fa-neuter"></i>
           </button>
@@ -24,7 +35,7 @@
       <div class="d-flex justify-content-end col">
         <button
           class="btn btn-outline-success rounded-pill"
-          [routerLink]="['../novopaciente']"
+          [routerLink]="['../usercadastro']"
         >
           Adicionar Novo <i class="fa fa-user-plus ms-1"></i>
         </button>
@@ -32,7 +43,7 @@
     </div>
   </div>
   <hr />
-  <div *ngIf="listaPacientes$ | async as listaPacientes; else loading">
+  <div *ngIf="listaUsers$ | async as listaUsar; else loading">
     <div class="container">
       <table
         class="table table-striped table-hover shadow p-3 mb-2 bg-body rounded"
@@ -40,19 +51,21 @@
         <thead class="bg-success text-light">
           <tr>
             <th scope="col" class="col">ID</th>
-            <th scope="col" class="col-5">Nome</th>
-            <th scope="col" class="col-4">CPF</th>
+            <th scope="col" class="col-2">User</th>
+            <th scope="col" class="col-4">Nome</th>
+            <th scope="col" class="col-2">Perfil</th>
             <th scope="col" class="col-3">Editar | Deletar | Visualizar</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let lista of listaPacientes.data">
-            <th scope="row">{{ lista?.id }}</th>
-            <td>{{ lista?.nome }}</td>
-            <td>{{ lista?.cpf }}</td>
+          <tr *ngFor="let lista of listaUsar.data" >
+            <th scope="row">{{lista.id}}</th>
+            <td>{{lista.username}}</td>
+            <td>{{lista.nome}}</td>
+            <td>{{lista.roles?.name}}</td>
             <td class="container">
-              <a [routerLink]="['/editarpaciente', lista?.id]">
+              <a [routerLink]="['/user/usercadastro/',lista.id]">
                 <i class="fa fa-pencil btn ms-3"></i>
               </a>
               <div class="text-dark ms-3 vr"></div>
@@ -61,14 +74,14 @@
                 class="fa fa-trash btn ms-3"
                 data-bs-toggle="modal"
                 data-bs-target="#deletarPaciente"
-                (click)="getPacienteId(lista?.id)"
+                (click)="getUserporId(lista?.id)"
               ></i>
               <div class="text-dark ms-3 vr"></div>
               <i
                 class="fa fa-eye btn ms-2"
                 data-bs-toggle="modal"
                 data-bs-target="#visualizarPaciente"
-                (click)="getPacienteId(lista?.id)"
+                (click)="getUserporId(lista?.id)"
               ></i>
             </td>
           </tr>
@@ -83,15 +96,15 @@
   <div class="col-12">
     <div class="d-flex justify-content-center">
       <pagination
-        class="my-pagination"
-        [customPreviousTemplate]="prevTemplate"
-        [customPageTemplate]="pageTemplate"
-        [customNextTemplate]="nextTemplate"
-        [totalItems]="totalItems"
-        [(ngModel)]="currentPage"
-        (pageChanged)="pageChanged($event)"
-        [maxSize]="maxSize"
-      ></pagination>
+      class="my-pagination"
+      [customPreviousTemplate]="prevTemplate"
+      [customPageTemplate]="pageTemplate"
+      [customNextTemplate]="nextTemplate"
+      [totalItems]="totalItems"
+      [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)"
+      [maxSize]="maxSize"
+    ></pagination>
     </div>
   </div>
 
@@ -120,7 +133,7 @@
       <div class="modal-content">
         <div class="modal-header border-success bg-success">
           <h5 class="modal-title text-light" id="visualizarLabelPaciente">
-            Paciente
+            Usuario
           </h5>
           <button
             type="button"
@@ -136,79 +149,66 @@
                 <label class="fw-bold col-5 d-flex justify-content-end"
                   >Nome:</label
                 >
-                <label class="col-7"> {{ onePaciente?.nome }}</label>
+                <label class="col-7">{{oneUser$?.nome}} </label>
               </div>
               <div class="row col-12">
                 <label class="fw-bold col-5 d-flex justify-content-end"
                   >Data de Nascimento:</label
                 >
-                <label class="col-7">{{
-                  onePaciente?.dataNascimento | date: "dd-MM-yyyy"
-                }}</label>
+                <label class="col-7">{{oneUser$?.dataNascimento | date: "dd-MM-yyyy"}}</label>
               </div>
               <div class="row col-12">
                 <label class="fw-bold d-flex justify-content-end col-5"
                   >CPF:</label
                 >
-                <label class="col-7"> {{ onePaciente?.cpf }}</label>
+                <label class="col-7">{{oneUser$?.cpf}}</label>
               </div>
 
               <div class="row col-12">
                 <label class="fw-bold d-flex justify-content-end col-5"
                   >RG:</label
                 >
-                <label class="col-7">{{ onePaciente?.rg }}</label>
+                <label class="col-7">{{oneUser$?.rg}}</label>
               </div>
+
+              <div class="row col-12">
+                <label class="fw-bold d-flex justify-content-end col-5"
+                  >CRM:</label
+                >
+                <label class="col-7">{{oneUser$?.crm}}</label>
+              </div>
+
 
               <div class="row col-12">
                 <label class="fw-bold d-flex justify-content-end col-5"
                   >Email:</label
                 >
-                <label class="col-7">{{ onePaciente?.email }}</label>
+                <label class="col-7">{{oneUser$?.email}}</label>
               </div>
 
-              <div class="d-flex justify-content-end col-6">
-                <label class="fw-bold">Nome da mãe:</label>
-                <label class="ms-2">{{ onePaciente?.nomeMae }}</label>
+              <div class="row col-12">
+                <label class="fw-bold d-flex justify-content-end col-5">Nome da mãe:</label>
+                <label class="col-7">{{oneUser$?.nomeMae}}</label>
               </div>
-              <div class="col-6">
-                <label class="fw-bold">Nome do pai:</label>
-                <label class="ms-2">{{ onePaciente?.nomePai }}</label>
+              <div class="row col-12">
+                <label class="fw-bold d-flex justify-content-end col-5">Nome do pai:</label>
+                <label class="col-7">{{oneUser$?.nomePai}}</label>
               </div>
               <p></p>
-              <hr />
-              <p></p>
-              <div class="col-6">
-                <label class="fw-bold"> Endereço:</label>
-                <label class="ms-2">{{ onePaciente?.endereco }}</label>
-              </div>
-              <div class="col-6">
-                <label class="fw-bold"> CEP:</label>
-                <label class="ms-2">{{ onePaciente?.cep }}</label>
-              </div>
-              <div class="col-6">
-                <label class="fw-bold">Bairro:</label>
-                <label class="ms-2">{{ onePaciente?.bairro }}</label>
-              </div>
-            </div>
-            <hr />
-            <div class="container">
-              <div class="row">
-                <h6 class="fw-bold">Telefones</h6>
 
-                <div
-                  class="col-4"
-                  *ngFor="let telefone_ of onePaciente?.telefones"
-                >
-                  <div>
-                    <label class="ms-2">{{ telefone_.telefones }}</label>
-                    <label class="ms-2">{{ telefone_.tipo }}</label>
-                  </div>
-                  <div></div>
-                </div>
+
+              <div class="row col-12">
+                <label class="fw-bold d-flex justify-content-end col-5"> Login:</label>
+                <label class="col-7">{{oneUser$?.username}}</label>
               </div>
+              <div class="row col-12">
+                <label class="fw-bold d-flex justify-content-end col-5"> Perfil:</label>
+                <label class="col-7">{{oneUser$?.roles?.name}}</label>
+              </div>
+
             </div>
           </div>
+
         </div>
         <div class="modal-footer">
           <button
@@ -234,7 +234,7 @@
       <div class="modal-content">
         <div class="modal-header border-danger bg-danger">
           <h5 class="modal-title text-light" id="deletarLabelPaciente">
-            Deletar Paciente
+            Deletar Usuario
           </h5>
           <button
             type="button"
@@ -248,9 +248,9 @@
             <div class="row">
               <div class="row col-12">
                 <label class="fw-bold col-5 d-flex justify-content-end"
-                  >Deletar o Paciente</label
+                  >Deletar o Usuario</label
                 >
-                <label class="col-7"> {{ onePaciente?.nome }}</label>
+                <label class="col-7"> {{oneUser$?.nome}} </label>
               </div>
 
               <div class="container">
@@ -265,7 +265,7 @@
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
-              (click)="Deletar(onePaciente?.id)"
+            (click)="deletarUser(oneUser$?.id)"
             >
               Deletar
             </button>

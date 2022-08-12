@@ -1,3 +1,5 @@
+
+
 import { NgModule } from '@angular/core';
 import {  RouterModule, Routes } from '@angular/router';
 
@@ -14,6 +16,10 @@ const routes: Routes = [
   {
     path:'paciente',
     loadChildren:() => import("./paciente/paciente-routing.module").then((m)=>m.PacienteRoutingModule),
+  },
+  {
+    path:'user',
+    loadChildren:() => import("./user/user-routing.module").then((m)=>m.UserRoutingModule),
   },
 
 ];

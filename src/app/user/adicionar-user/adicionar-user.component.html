@@ -1,0 +1,131 @@
+
+<body>
+  <div class=" container d-flex justify-content-center ">
+    <div
+      class="card border-success mb-3 w-75 "
+      style="max-width: 100rem; min-width: 20rem"
+    >
+
+      <div class="card-header bg-success border-success text-light  d-flex justify-content-center ">
+        Cadastro do Usuario
+      </div>
+      <div class="card-body text-success bg-success  bg-opacity-10">
+        <div class="card-text">
+          <form class="form mt-4" [formGroup]="novoFormUser" (submit)="cadastrarAtualizarUser()" >
+            <div class="form-group">
+              <label class="ms-2">Nome</label>
+              <input type="text" class="form-control" placeholder="Nome do paciente" formControlName="nome" />
+
+          </div>
+            <div class="row mt-3" >
+              <div class="form-group col">
+                <label class="ms-2">Data Nascimento</label>
+                <input type="date" class="form-control" placeholder="Data Nascimento"    formControlName="datanascimento" />
+              </div>
+              <div class="form-group col">
+                <label  class="ms-2">CPF</label>
+                <input type="text" class="form-control" placeholder="CPF" mask="000.000.000-00" formControlName="cpf" />
+              </div>
+              <div class="form-group col ">
+                <label class="ms-2">RG</label>
+                <input type="text" class="form-control" placeholder="RG"  formControlName="rg"/>
+
+              </div>
+            </div>
+
+            <div class="row mt-3" >
+              <div class="form-group col">
+                <label class="ms-2">CRM</label>
+                <input type="text" class="form-control" placeholder="CRM"    formControlName="crm" />
+              </div>
+              <div class="form-group col">
+
+              </div>
+              <div class="form-group col ">
+
+              </div>
+            </div>
+
+
+
+
+
+            <div class="form-group mt-3">
+              <label class="ms-2">Nome mãe</label>
+              <input type="text" class="form-control" placeholder="Nome da mãe" formControlName="nomeMae"/>
+
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Nome do pai</label>
+              <input type="text" class="form-control" placeholder="Nome do pai"  formControlName="nomePai"/>
+
+            </div>
+            <div class="form-group mt-3">
+              <label class="ms-2">Email</label>
+              <input type="email" class="form-control" placeholder="Email" formControlName="email"/>
+            </div>
+
+            <div class="row mt-3" >
+              <div class="form-group col-2">
+                <label class="ms-2">Login</label>
+                <input type="text" class="form-control" placeholder="Login"    formControlName="username" />
+              </div>
+
+              <div *ngIf="statusSenha" >
+              <div class="form-group col" >
+                <div  class="form-group col-3 ">
+                  <label class="ms-2">Senha</label>
+                  <input type="password" class="form-control" placeholder="Senha"    formControlName="password" />
+                </div>
+
+              </div>
+              <div class="form-group col ">
+                <div class="form-group col-3">
+                  <label class="ms-2">Repetir Senha</label>
+                  <input type="password" class="form-control" placeholder="Repetir Senha"    formControlName="repassword" />
+                </div>
+
+              </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+
+
+
+                <div class="form-group  ">
+
+                </div>
+                <div class="form-group col-3">
+                  <label class="ms-2">Perfil</label>
+                  <select class="form-select w-100" aria-label="Default select example" placeholder="Tipo" formControlName="role" >
+                    <option selected></option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Doutor(a)">Doutor(a)</option>
+
+                  </select>
+
+
+                </div>
+              </div>
+
+
+
+
+            <div class="row justify-content-center mt-4">
+            <button  class="btn  btn-success btn-sm    col-2">{{btnSalvarEditar}}</button>
+            <a class="btn  btn-outline-secondary btn-sm m  ms-3 col-2" [routerLink]="['/user/users']">Cancelar</a>
+          </div>
+          </form>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-success">
+
+      </div>
+    </div>
+
+  </div>
+
+
+</body>

@@ -66,6 +66,7 @@ export class PacientesComponent implements OnInit {
   }
 
   getPaciente(skip: number) {
+
     if (skip == 0) {
       this.listaPacientes$ = this.pacientesService.getPacientes();
     } else {

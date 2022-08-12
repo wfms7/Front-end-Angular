@@ -1,3 +1,4 @@
+import { UserModule } from './user/user.module';
 import { PacienteModule } from './paciente/paciente.module';
 import { NovoPacienteComponent } from './paciente/novo-paciente/novo-paciente.component';
 import { RouterModule } from '@angular/router';
@@ -28,6 +29,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     FormsModule,
     CabecalhoModule,
     PacienteModule,
+    UserModule,
     NgxMaskModule.forRoot({dropSpecialCharacters:false}),
     NgxPaginationModule,
     ModalModule.forRoot(),

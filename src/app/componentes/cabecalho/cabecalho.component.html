@@ -2,21 +2,22 @@
 <div class="bg-success">
   <nav class="navbar navbar-expand-md navbar-dark ">
     <div class="container">
-
-
-      <a class="navbar-brand  ms-2 margin-right-5 h1 " href="#" >  <img class=" logo rounded-circle bg-light" src="../../assets/img/logo.svg"/> </a>
-
+      <a class="navbar-brand  ms-2  h1 " href="#" >  <img class=" logo rounded-circle bg-light" src="../../assets/img/logo.svg"/> </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBabecalho" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse " id="navbarBabecalho" >
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li>
+            <a class="nav-link active text-light" href="#">Home</a>
+
+          </li>
+          <li>
             <a class="nav-link active text-light" aria-current="page"   [routerLink]="['paciente/pacientes']">Paciente</a>
 
           </li>
               <li>
-                <a class="nav-link active text-light" href="#">Procedimento</a>
+                <a class="nav-link active text-light" href="#">Agenda</a>
 
               </li>
              <!--
@@ -25,7 +26,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>-->
             </ul>
 
-
+            <a class="rounded-circle btn  btn-outline-light " data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" > <i class="fa fa-gears "></i></a>
 
 
       </div>
@@ -34,3 +35,22 @@
 </div>
 <hr>
 </header>
+
+
+<div class="offcanvas offcanvas-start w-25" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Configurações <i class="fa fa-gear ms-3"></i></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <div class="">
+
+      <ul style="list-style: none;" >
+        <li><a class="rounded-pill btn border border-success w-100 mt-3" data-bs-dismiss="offcanvas"  [routerLink]="['user/users']">Usuario <i class="fa fa-user ms-3"></i></a></li>
+        <li><a class="rounded-pill btn border border-success w-100 mt-3" href="#">Criar Agenda</a></li>
+
+      </ul>
+    </div>
+  </div>
+</div>
